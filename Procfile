@@ -1,1 +1,1 @@
-web: gunicorn app:app --log-file=-
+web: gunicorn --env DJANGO_SETTINGS_MODULE=fc2_matome.settings fc2_matome.wsgi --log-file -

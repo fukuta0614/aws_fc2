@@ -1,0 +1,46 @@
+ <table class="table table-striped" id="url_table">
+      <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Thumbnail</th>
+            <th>Title</th>
+            <th>Download</th>
+
+        </tr>
+      </thead>
+      <tbody>
+
+      {% for movie in movies %}
+            <tr>
+                <th scope="row">{{ forloop.counter|add:num }}</th>
+                <td width="200" height="150">
+                    <div class="video_thumb_small" style="position:relative;">
+                        <a href="{{movie.url}}" target="_blank"><img width='160' height='120' src="{{movie.thumbnail}}"></a>
+                        <br>
+                        <span>{{movie.play_time}}</span>
+                    </div>
+                    <a href="{% url_add_query url sort_type=1 %}">再生数</a>: {{movie.playing}}<br/>
+                    <a href="?">お気に入り数</a>: {{movie.fav }}
+                </td>
+                <td>
+                    <div>
+                       <a href="{{movie.url}}" target="_blank">{{ movie.title}}</a>
+                        <br/><br/><br/>
+
+                        <div style="text-align:center">
+                            Tags &nbsp; [{% for t in movie.tag %}
+                                <a href="?tag={{t}}">{{t}} &nbsp; </a>
+                            {% endfor %}]
+                        </div>
+
+
+                    </div>
+                </td>
+
+                <td>
+                    <input class="submit" type="button" value="Download" onClick="location.href='{% url 'download'%}?target={{movie|private:'_id'}}'">
+                </td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>

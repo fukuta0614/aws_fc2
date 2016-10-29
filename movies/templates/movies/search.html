@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+     <div class="container">
+        <h1>Let's search!! {{number}}</h1>
+          <form method="post" action="">
+              <br/>
+              {% csrf_token %}
+              <p>
+                  <input type="text" class="form-control" placeholder="input some word" name="query"><br/>
+                  <input class="btn btn-primary btn-lg" type="submit" value="search&raquo;">
+              </p>
+          </form>
+
+      </div>
+{% endblock %}
+
+
+{% block content2 %}
+
+    {% if results %}
+        <p><strong>'{{query}}' の検索結果 {{number}}</strong></p>
+        <table class="table table-striped" id="url_table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Url</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for result in results %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ result.Title}}</td>
+                    <td><a href="{{result.Url}}" target="_blank">{{result.Url}}</a></td>
+                </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+          <p>{{ text }}</p>
+
+    {% endif %}
+{% endblock %}
+
+<!--<h1>Join Now</h1>-->
+    <!--<form method="POST" action="">-->
+        <!--{% csrf_token %}-->
+        <!--{{ form.as_p }}-->
+
+        <!--<input type="submit">-->
+    <!--</form>-->

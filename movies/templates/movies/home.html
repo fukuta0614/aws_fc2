@@ -1,0 +1,93 @@
+
+
+{% extends 'movies/base.html' %}
+
+
+{% block content %}
+    <div class="container">
+        <h1>fc2 movies!</h1>
+          <form method="get" action="">
+              <br/>
+              <!--{% csrf_token %}-->
+              <p>
+                  <input type="text" class="form-control" placeholder="input some word" name="query"><br/>
+                  <input class="btn btn-primary btn-lg" type="submit" value="search&raquo;">
+              </p>
+          </form>
+        <!--<input type="text" id="url" size="50" value="http://video.fc2.com/ginfo.php?mimi=0f2cfa4c6998641965f3eedc44f1484b&v=20150225qFpqAs3t&upid=20150225qFpqAs3t&otag=1" /><button onclick="getSource()">ソースを取得</button><br />-->
+	    <!--<textarea id="source" style="width: 100%;height: 300px;"></textarea>-->
+      </div>
+{% endblock %}
+{% load private %}
+{% load url_add_query %}
+
+{% block content2 %}
+    {% if tag %}
+        <p style="text-align:center">タグ 「{{tag}}」 の検索結果</p>
+    {% endif %}
+    {% if query %}
+        <p style="text-align:center">キーワード 「{{query}}」 の検索結果</p>
+    {% endif %}
+    <nav style="text-align:center">
+      <ul class="pagination" style="margin-bottom:5px " >
+        <li>
+            {% if movies.has_previous %}
+                <a href="{% url_add_query url page=1 &}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            {% else %}
+                <span aria-hidden="true">&laquo;</span>
+            {% endif %}
+        </li>
+        {% for i in "xxxxx" %}
+          {% if movies.number|add:forloop.counter0 < movies.paginator.num_pages %}
+            <li><a href="{% url_add_query url page=movies.number|add:forloop.counter0 %}">{{movies.number|add:forloop.counter0}}</a></li>
+          {% endif %}
+        {% endfor %}
+        <li>
+            {% if movies.has_next %}
+                <a href="{% url_add_query url page=movies.paginator.num_pages %}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            {% else %}
+                <span aria-hidden="true">&raquo;</span>
+            {% endif %}
+        </li>
+      </ul>
+    </nav>
+
+    <div class="row">
+        {% for movie in movies %}
+        <div class="col-sm-3" style="position:relative; height:230px">
+            <strong>{{forloop.counter}}</strong>
+
+            <div class="video_thumb_small" style="position:relative;">
+                <input width="160" height="120" src="{{movie.thumbnail}}" class="submit" type="image" onClick="location.href='{% url 'download'%}?target={{movie.id}}'">
+                <span>{{movie.play_time}}</span>
+            </div>
+            <p style="font-size:12px; text-align:center">
+                <a href="{% url_add_query url sort_type=1 %}" class="small_info">再生数</a>: {{movie.playing}}<br/>
+                <a href="{% url_add_query url sort_type=0 %}" class="small_info">お気に入り数</a>: {{movie.fav }}
+            </p>
+            <p style="font-size:15px; text-align:center">
+                <a href="{{movie.url}}" target="_blank"><strong>{{ movie.title}}</strong></a><br/><br/>
+            </p>
+        </div>
+
+        {% endfor %}
+    </div>
+
+
+
+
+
+{% endblock %}
+
+<!--<h1>Join Now</h1>-->
+    <!--<form method="POST" action="">-->
+        <!--{% csrf_token %}-->
+        <!--{{ form.as_p }}-->
+
+        <!--<input type="submit">-->
+    <!--</form>-->
+<!--<input width="160" height="120" src="{{movie.thumbnail}}" class="submit" type="image" onClick="location.href='{% url 'download'%}?target={{movie|private:'_id'}}'">-->
