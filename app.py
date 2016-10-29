@@ -13,16 +13,16 @@ def index():
     return "Hello world"
 
 
-# @app.route('/hello/<name>')
-# def hello(name=''):
-#     if name == '':
-#         name = 'ななしさん'
-#     return render_template('hello.html', name=name)
-#
-#
-# @app.route('/debug')
-# def debug():
-#     return render_template('notemplate.html')
+@app.route('/hello/<name>')
+def hello(name=''):
+    if name == '':
+        name = 'ななしさん'
+    return render_template('hello.html', name=name)
+
+
+@app.route('/debug')
+def debug():
+    return render_template('notemplate.html')
 
 
 if __name__ == '__main__':
