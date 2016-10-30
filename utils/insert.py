@@ -1,6 +1,8 @@
 
 import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'myapp.settings'
+import django
+django.setup()
 
 from movies.models import Movie,Tag
 from collections import Counter
