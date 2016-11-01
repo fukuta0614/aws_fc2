@@ -33,7 +33,7 @@ def get_ginfo_url(target):
     return ginfo_url
 
 
-def get_all_movie_info(base_url, max_page_num=2000, page_number=1,):
+def get_all_movie_info(base_url, max_page_num=20000, page_number=1,):
 
     hangle = re.compile(r'[가-힣]')
     time_to_sec = re.compile(r'(\d+):(\d+)')
@@ -124,13 +124,17 @@ if __name__ == '__main__':
 
     driver.set_page_load_timeout(10)
 
-    # ranking 10
-    # base_url = "http://video.fc2.com/a/list.php?m=cont&page={}&type=1"
+    page_number = 355
 
-    # trend 10
-    # base_url = 'http://video.fc2.com/a/recentpopular.php?page={}'
+    if page_number:
+        # all_movie
+        base_url = 'http://video.fc2.com/ja/a/movie_search.php?keyword=&fq=HMV5&page={}'
+        get_all_movie_info(base_url, page_number=355)
+    else:
+        # ranking 10
+        base_url = "http://video.fc2.com/a/list.php?m=cont&page={}&type=2"
+        get_all_movie_info(base_url, max_page_num=10)
 
-    # all_movie
-    base_url = 'http://video.fc2.com/ja/a/movie_search.php?keyword=&fq=HMV5&page={}'
-
-    get_all_movie_info(base_url, page_number=67)
+        # trend 10
+        base_url = 'http://video.fc2.com/a/recentpopular.php?page={}'
+        get_all_movie_info(base_url, max_page_num=10)

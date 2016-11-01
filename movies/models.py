@@ -21,6 +21,5 @@ class Movie(models.Model):
     movie_kind = models.CharField(max_length=120, default='')
     tag = models.CharField(max_length=120, default=[])
 
-
     def __str__(self):
         return self.title
