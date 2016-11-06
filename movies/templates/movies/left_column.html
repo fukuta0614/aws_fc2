@@ -1,0 +1,29 @@
+
+<div class="title">
+    <strong>Type</strong>
+</div>
+
+<a href="#" class="item" style="color: darkblue">新着</a>
+<a href="#" class="item" style="color: darkblue">週間ランキング</a>
+<a href="#" class="item" style="color: darkblue">月間ランキング</a>
+<a href="#" class="item" style="color: darkblue">総合ランキング</a>
+
+{#<button class="download" type="submit" onClick="img2gif()" >Download</button>#}
+
+<hr>
+
+<div class="title">
+    <strong>Categories</strong>
+</div>
+
+{% if is_adult == 1 %}
+    {% for tag in tags %}
+        <a href="{% url 'search' %}?tag={{ tag.tag }}" class="item">{{ tag.tag }} ({{ tag.num }})</a>
+    {% endfor %}
+{% endif %}
+
+{% if is_adult == 0 %}
+    {% for tag in tags %}
+        <a href="{% url 'search_na' %}?tag={{ tag.tag }}" class="item">{{ tag.tag }} ({{ tag.num }})</a>
+    {% endfor %}
+{% endif %}

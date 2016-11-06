@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 
-from collections import Counter
 from bs4 import BeautifulSoup
 import requests
 import re
@@ -19,22 +18,40 @@ def index(request):
 
 def home(request):
     page = request.GET.get('page')
-    tag = request.GET.get('tag')
-    query = request.GET.get('query')
-    sort_type = request.GET.get('sort_type')
-    is_adult = request.GET.get('is_adult')
+    sort_type = request.GET.get('st')
 
-    if sort_type is None or sort_type == 0:
-        sort_type = 'fav'
-    else:
-        sort_type = 'playing'
+    url = request.get_full_path()
 
-    if is_adult is None:
-        is_adult = 0
-    else:
-        is_adult = int(is_adult)
+    sort_type = 'playing' if sort_type == 1 else 'fav'
+    is_adult = 0 if 'noadult' in url else 1
 
+    movies = Movie.objects.filter(is_adult=is_adult).order_by('-{}'.format(sort_type))
     tags = Tag.objects.filter(is_adult=is_adult).order_by('-num')[:100]
+
+    paginator = Paginator(movies, 60)  # Show 25 contacts per page
+
+    try:
+        movies = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        movies = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        movies = paginator.page(paginator.num_pages)
+
+    return render(request, 'movies/home.html', locals())
+
+
+def search(request):
+    page = request.GET.get('page')
+    sort_type = request.GET.get('st')
+    tag = request.GET.get('tag')
+    query = request.GET.get('q')
+
+    url = request.get_full_path()
+
+    sort_type = 'playing' if sort_type == 1 else 'fav'
+    is_adult = 0 if 'noadult' in url else 1
 
     if tag:
         movies = Movie.objects.filter(is_adult=is_adult).filter(tag__contains=tag).order_by('-{}'.format(sort_type))
@@ -42,13 +59,11 @@ def home(request):
         movies = Movie.objects.filter(is_adult=is_adult).filter(title__contains=query).order_by('-{}'.format(sort_type))
     else:
         movies = Movie.objects.filter(is_adult=is_adult).order_by('-{}'.format(sort_type))
-    paginator = Paginator(movies, 100)  # Show 25 contacts per page
-    url = request.get_full_path()
 
-    if page:
-        num = (int(page) - 1) * 100
-    else:
-        num = 0
+    tags = Tag.objects.filter(is_adult=is_adult).order_by('-num')[:100]
+
+    paginator = Paginator(movies, 60)  # Show 25 contacts per page
+
     try:
         movies = paginator.page(page)
     except PageNotAnInteger:
@@ -68,7 +83,7 @@ def download(request):
     headers = {
         'User-Agent': request.META['HTTP_USER_AGENT']
     }
-    soup = BeautifulSoup(requests.get(ginfo_url, data=b'None', headers=headers).content)
+    soup = BeautifulSoup(requests.get(ginfo_url, data=b'None', headers=headers).content, 'html.parser')
     # print(soup.string)
     filepath = str(soup).replace(";", "").split("&amp")
     flv_url = filepath[0].split('=')[1] + '?' + filepath[1]

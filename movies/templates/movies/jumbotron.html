@@ -1,0 +1,44 @@
+<div class="jumbotron">
+    <div class="container">
+        <p style="font-size:14px; text-align:right"><strong>※アダルトコンテンツです。18歳未満の方は見ないでください。</strong></p>
+        <h1>FC2動画 まとめ！</h1>
+
+        <p style="font-size:14px"><br/>タグによる絞り込み、検索機能、ランキング表示、サムネのスクロール、混雑時にも視聴可能なプレイヤー、等シンプルかつ高機能！</p>
+        <div class="search">
+            {% if is_adult == 1 %}
+                <form method="get" action="{% url 'search' %}">
+                    <br/>
+                    <!--{% csrf_token %}-->
+                    <p>
+                    <div class="search-submit">
+                        <input class="btn btn-primary" type="submit" value="search&raquo;">
+                    </div>
+                    <div class="search-input">
+                        <input type="text" class="form-control" placeholder="input some word" name="q">
+                    </div>
+                    </p>
+
+                </form>
+            {% endif %}
+            {% if is_adult == 0 %}
+                <form method="get" action="{% url 'search_na' %}">
+                    <br/>
+                    <!--{% csrf_token %}-->
+                    <p>
+                        <input type="text" class="form-control" placeholder="input some word" name="q"><br/>
+                        <input class="btn btn-primary btn-lg" type="submit" value="search&raquo;">
+                    </p>
+                </form>
+            {% endif %}
+        </div>
+
+        {% if tag %}
+            <h4 style="text-align:center; margin: 0 auto; padding: 10px;">タグ 「{{ tag }}」 の検索結果</h4>
+        {% endif %}
+        {% if query %}
+            <h4 style="text-align:center; margin: 0 auto; padding: 10px;">キーワード 「{{ query }}」 の検索結果</h4>
+        {% endif %}
+        <!--<input type="text" id="url" size="50" value="http://video.fc2.com/ginfo.php?mimi=0f2cfa4c6998641965f3eedc44f1484b&v=20150225qFpqAs3t&upid=20150225qFpqAs3t&otag=1" /><button onclick="getSource()">ソースを取得</button><br />-->
+        <!--<textarea id="source" style="width: 100%;height: 300px;"></textarea>-->
+    </div>
+</div>

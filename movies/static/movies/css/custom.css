@@ -1,54 +1,227 @@
-.jumbotron .container {
-  text-align: center;
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
 }
 
-#url_table {
-text-align: left;
+.navbar {
+    background-color: #333
 }
 
-a.small_info {
-  color: black
-}
-div.video_thumb_small {
-    display: block;
- margin-left: auto;
- margin-right: auto;
-  width : 160px;
-  height : 120px;
+.navbar .container {
+    max-width: 1254px;
+    margin: 0 auto;
 }
 
-div.video_thumb_small span {
-  background-color: #000000;
-  color: #FFFFFF;
-  font-size: 13px;
-  font-weight: bold;
-  line-height: 1;
-  opacity: 0.85;
-  padding: 2px;
-  position: absolute;
-  right :0;
-  bottom :0;
+.scrollable-menu {
+    height: auto;
+    max-height: 500px;
+    overflow-x: hidden;
 }
 
 .jumbotron {
-  padding: 0 0;
+    padding: 0 0;
+    margin-bottom: 0;
+    border-bottom: 1px #c0c0c0 solid;
+    background-color: floralwhite
+        /*background-color: #fbfffb*/
+
 }
-/* --- コンテナ --- */
-#container {
-margin: 0 auto; /* センタリング */
-background-color: #ffffff; /* メインカラムの背景色 */
-border-left: 1px #c0c0c0 solid; /* 左の境界線 */
-border-right: 1px #c0c0c0 solid; /* 右の境界線 */
+
+.jumbotron .container {
+    text-align: center;
 }
+
+.search {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.search-input {
+    overflow: hidden;
+}
+
+.search-submit {
+    float: right;
+}
+
+/* --- wrapper --- */
+.wrap {
+    margin: 3px auto; /* センタリング */
+    width: 1254px;
+    background-color: floralwhite; /* メインカラムの背景色 */
+    border: 1px #c0c0c0 solid; /* 左の境界線 */
+}
+
+.wrap .contents {
+    border-bottom: 1px #c0c0c0 solid;
+    /*display: inline-block;*/
+
+}
+
 /* --- ナビゲーション --- */
-#nav {
-text_align:left;
-float: left;
-width: 15%; /* サイドバーの幅 */
+.left_column {
+    text-align: left;
+    float: left;
+    width: 170px; /* サイドバーの幅 */
+    height: 100%;
+
+}
+
+.left_column .title {
+    padding: 10px 0 10px 12px;
+}
+
+.left_column .item {
+    display: block;
+    padding-left: 20px;
+    font-size: 13px;
+    line-height: 2.0;
+}
+
+.right_column {
+    float: right;
+    width: 200px; /* サイドバーの幅 */
+    height: 100%;
+    text-align: center
+}
+
+.right_column .title {
+    padding: 10px 0 10px 12px;
+}
+
+.right_column div.affi img{
+    padding: 20px;
 }
 
 /* --- メインカラム --- */
-#content {
-float: left;
-width: 85%; /* メインカラムの幅 */
+.main_column {
+    /*width: 790px; !* メインカラムの幅 *!*/
+    margin: 0 200px 0 170px;
+    border-left: 1px #c0c0c0 solid;
+    border-right: 1px #c0c0c0 solid;
+}
+
+.main_column .affi{
+    padding:20px;
+    text-align: center;
+    display: inline-block;
+    width:100%;
+}
+.player {
+    padding: 30px;
+    text-align: center;
+    font-size: 18px;
+    display: none;
+}
+
+div.player_title {
+    width: 640px;
+    margin: auto;
+    padding-bottom: 5px;
+}
+
+div.download {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.movie_info {
+    padding-top: 5px;
+    height: 85px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 13px;
+    text-align: center;
+}
+
+div.video_thumb_small {
+    border: 3px #555 solid;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 160px;
+    height: 120px;
+}
+
+div.video_thumb_small:hover {
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    transform: scale(1.5);
+}
+
+div.video_thumb_small span {
+    background-color: #000000;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1;
+    opacity: 0.85;
+    padding: 2px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.scrub div.seek {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    z-index: 2;
+    display: none;
+}
+
+div.video_thumb_small div.scrubber {
+    left: 5px;
+    right: 5px;
+    top: 3px;
+}
+
+div.scrubber {
+    position: absolute;
+    z-index: 3;
+    bottom: 5px;
+    left: 15px;
+    right: 15px;
+    height: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+    background: #111;
+    background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #000), color-stop(100%, #222));
+    background: -webkit-linear-gradient(#000, #222);
+    background: -moz-linear-gradient(#000, #222);
+    background: -o-linear-gradient(#000, #222);
+    background: -ms-linear-gradient(#000, #222);
+    background: linear-gradient(#000000, #222222);
+    -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 0 0 1px;
+    -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 0 0 1px;
+    box-shadow: rgba(255, 255, 255, 0.2) 0 0 0 1px;
+    -webkit-transition: opacity 0.2s linear;
+    -moz-transition: opacity 0.2s linear;
+    transition: opacity 0.2s linear;
+    padding: 1px;
+    display: none;
+}
+
+div.scrubber .scrubbed {
+    background: #ffb7b7; /* Old browsers */
+    background: -moz-linear-gradient(top, #ffb7b7 0%, #f00000 50%, #f00000 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffb7b7), color-stop(50%, #f00000), color-stop(100%, #f00000)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #ffb7b7 0%, #f00000 50%, #f00000 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #ffb7b7 0%, #f00000 50%, #f00000 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #ffb7b7 0%, #f00000 50%, #f00000 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #ffb7b7 0%, #f00000 50%, #f00000 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffb7b7', endColorstr='#f00000', GradientType=0); /* IE6-9 */
+    height: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+    min-width: 6px;
 }

@@ -1,4 +1,4 @@
-from urllib.parse import urlsplit, urlunsplit
+from urllib.parse import urlsplit, urlunsplit, urlencode
 from django import template
 from django.http import QueryDict
 
@@ -32,5 +32,14 @@ def url_add_query(url, **kwargs):
 
     parsed = urlsplit(url)
     querystring = QueryDict(parsed.query.encode('utf-8'), mutable=True)
-    querystring.update(kwargs)
+    for k in kwargs:
+        querystring[k] = str(kwargs[k])
+
+    # querystring.update(kwargs)
     return urlunsplit(parsed._replace(query=querystring.urlencode()))
+    # if len(parsed.query) > 0:
+    #     d = {q.split('=')[0]: q.split('=')[1] for q in parsed.query.split('&')}
+    # else:
+    #     d = {}
+    # d.update(kwargs)
+    # return urlunsplit(parsed._replace(query=urlencode(d)))
