@@ -78,6 +78,8 @@ def search(request):
     else:
         movies = Movie.objects.filter(is_adult=is_adult).order_by('-{}'.format(sort_type))
 
+    # import ipdb; ipdb.set_trace()
+
     tags = Tag.objects.filter(is_adult=is_adult).order_by('-num')[:100]
 
     paginator = Paginator(movies, 60)  # Show 25 contacts per page

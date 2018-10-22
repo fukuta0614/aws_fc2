@@ -26,7 +26,7 @@ class Movie(models.Model):
     movie_kind = models.CharField(max_length=120, default='')
     tag = models.CharField(max_length=120, default='')
     info = models.CharField(max_length=120, default='')
-    suggests = models.CharField(max_length=512, default='')
+    # suggests = models.CharField(max_length=512, default='')
     added = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     uploaded = models.DateTimeField(auto_now_add=False, auto_now=False)
