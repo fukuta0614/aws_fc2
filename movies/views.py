@@ -3,12 +3,16 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
-
+from django.db.models import Q
 from bs4 import BeautifulSoup
 import requests
 import re
 import pickle
+import datetime
+from django.utils import timezone
 
+# from django.contrib.auth.models import AnonymousUser
+import pprint as pp
 from .models import Movie, Tag
 
 
@@ -17,18 +21,32 @@ def index(request):
 
 
 def home(request):
+    if not request.session.exists(request.session.session_key):
+        request.session.create()
+    print('-----------------------')
+    pp.pprint(request.session.__dict__)
+    print('-----------------------')
+
     page = request.GET.get('page')
     sort_type = request.GET.get('st')
-
+    tp = request.GET.get('t')
     url = request.get_full_path()
 
-    sort_type = 'playing' if sort_type == 1 else 'fav'
+    sort_type = 'playing' if sort_type == '1' else 'fav'
     is_adult = 0 if 'noadult' in url else 1
 
-    movies = Movie.objects.filter(is_adult=is_adult).order_by('-{}'.format(sort_type))
+    movies = Movie.objects.filter(is_adult=is_adult)
+
+    if tp == 'new':
+        movies = movies.filter(uploaded__date__gte=timezone.now() - datetime.timedelta(days=3)).order_by('-{}'.format(sort_type))[:1000]
+    elif tp == 'all':
+        movies = movies.order_by('-{}'.format(sort_type))[:1000]
+    else:
+        movies = movies.filter(info='trend').order_by('-{}'.format(sort_type))[:1000]
+
     tags = Tag.objects.filter(is_adult=is_adult).order_by('-num')[:100]
 
-    paginator = Paginator(movies, 60)  # Show 25 contacts per page
+    paginator = Paginator(movies, 60)  # Show 60 movies per page
 
     try:
         movies = paginator.page(page)
@@ -50,7 +68,7 @@ def search(request):
 
     url = request.get_full_path()
 
-    sort_type = 'playing' if sort_type == 1 else 'fav'
+    sort_type = 'playing' if sort_type == '1' else 'fav'
     is_adult = 0 if 'noadult' in url else 1
 
     if tag:
@@ -93,3 +111,14 @@ def download(request):
         return redirect(flv_url)
     else:
         return redirect('/')
+
+
+def watch(request):
+    watch_id = request.GET.get('id')
+    url = request.GET.get('url')
+
+    if '?' in url:
+        return redirect(url+'&id='+watch_id)
+    else:
+        return redirect(url+'?id='+watch_id)
+

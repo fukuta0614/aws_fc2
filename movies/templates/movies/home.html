@@ -4,7 +4,7 @@
 {% load static %}
 {% load private %}
 {% load url_add_query %}
-
+{% load datetime_format %}
 
 {% block content %}
 
@@ -21,12 +21,13 @@
         </div>
 
     </div>
-    <!-- <div>
-         <script src="{% static 'movies/js/outerplayer.js' %}" url="http://video.fc2.com/en/a/content/20160914FzLVA5Ln/" tk="T0RNd09EQXpOVE09" tl="妹妹第一次看A書 忽然慾火難耐.." sj="81000" d="3653" w="640" h="392"  charset="UTF-8"></script>
-    </div> -->
+    <div>
+         <!--<script src="{% static 'movies/js/outerplayer.js' %}" url="http://video.fc2.com/en/a/content/20160914FzLVA5Ln/" tk="T0RNd09EQXpOVE09" tl="妹妹第一次看A書 忽然慾火難耐.." sj="81000" d="3653" w="640" h="392"  charset="UTF-8"></script>-->
+{#    <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" wmode="transparent" width="448" height="368" id="flv2" align="middle"><param name="allowScriptAccess" value="sameDomain" /><param name="movie" value="http://video.fc2.com/flv2.swf?i=20160502BULpxXmA&d=2388&movie_stop=off&no_progressive=1&otag=1&sj=99000&rel=1" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="allowFullScreen" value="true" /><embed src="http://video.fc2.com/flv2.swf?i=20160502BULpxXmA&d=2388&movie_stop=off&no_progressive=1&otag=1&sj=99000&rel=1" quality="high" bgcolor="#ffffff" wmode="transparent" width="448" height="368" name="flv2" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" allowFullScreen="true" /></object><br /><a href="http://video.fc2.com/content/20160502BULpxXmA/" title="FC2動画アダルト 視聴も投稿も無料の共有動画　ブログや携帯にも対応" rel="nofollow" >(無)素人女子 4p</a>#}
+    </div>
 
-    <nav style="text-align:center">
-        <ul class="pagination" style="margin-bottom:5px ">
+    <nav style="margin-right: 20px;text-align: right;">
+        <ul class="pagination">
             <li>
                 {% if movies.has_previous %}
                     <a href="{% url_add_query url page=1 %}" aria-label="Previous">
@@ -73,10 +74,11 @@
             <div id="{{ movie.id }}" class="col-sm-3 movie" style="position:relative; height:235px">
 
                 <strong><a href="{% url 'download' %}?target={{ movie.id }}">{{ forloop.counter }}</a></strong>
+                <p class="uploaded">{% datetime_format movie.uploaded %} 投稿</p>
 
                 <div class="video_thumb_small clsThumbToAlbum" url="{{ movie.url }}" upid="{{ movie.id }}"
                      data-up-id="{{ movie.id }}" data-duration="{{ movie.play_time_sec }}" alt="{{ movie.title }}" sj="{{ movie.sj }}" style="position:relative;">
-                    <a href="{{ movie.url }}" target="_blank" class="scrub">
+                    <a href="{% url 'watch' %}?id={{ movie.id }}&url={{ url }}"  target="_blank" class="scrub">
                         <img width="100%" height="100%" border="0" class="movie_thumbnail" src="{{ movie.thumbnail }}" alt="{{ movie.title }}"/>
                         <!--<input width="100%" height="100%" src="{{movie.thumbnail}}" class="submit" type="image" onClick="location.href='{% url 'download' %}?target={{ movie.id }}'"> -->
                         <div class="scrubber"
@@ -93,7 +95,6 @@
                     <p style="font-size:12px">
                         <a href="{% url_add_query url st=1 %}" class="small_info">再生数</a>: {{ movie.playing }}<br/>
                         <a href="{% url_add_query url st=0 %}" class="small_info">お気に入り数</a>: {{ movie.fav }}
-
                     </p>
                     <a href="{{ movie.url }}" target="_blank"
                        title="{{ movie.title }}"><strong>{{ movie.title }}</strong></a>
